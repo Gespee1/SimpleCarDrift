@@ -1,5 +1,5 @@
 {
-  "idSave": 11752,
+  "idSave": 11769,
   "isFirstSession": false,
   "language": "ru",
   "promptDone": false,
@@ -51,7 +51,7 @@
     false,
     false,
     false,
-    false,
+    true,
     false,
     false,
     false,
@@ -174,9 +174,9 @@
     0,
     0
   ],
-  "selectedCar": 3,
+  "selectedCar": 41,
   "highscore": 152552,
-  "money": 438065,
+  "money": 435513,
   "lastRewardGotTime": 0,
   "dailyRewardGot": [
     false,
