@@ -5,7 +5,6 @@ using System.Drawing;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using YG;
 
 public class DailyController : MonoBehaviour
 {
@@ -23,10 +22,10 @@ public class DailyController : MonoBehaviour
     private void Start()
     {
 
-        _serverTime = YandexGame.ServerTime();
+        //_serverTime = YandexGame.ServerTime();
         //serverDateTime = new DateTime(_serverTime);
         serverDateTime = DateTime.UtcNow; // Временное решение
-        lastDateTime = new DateTime(YandexGame.savesData.lastRewardGotTime);
+        //lastDateTime = new DateTime(YandexGame.savesData.lastRewardGotTime);
 
 
         Debug.Log($"{serverDateTime.ToShortDateString()} {serverDateTime.ToShortTimeString()}");
@@ -50,7 +49,7 @@ public class DailyController : MonoBehaviour
 
     private void setButtonColors()
     {
-        bool[] dailyRew;
+        /*bool[] dailyRew;
 
         dailyRew = YandexGame.savesData.dailyRewardGot;
         for (int i = 0; i < dailyRew.Length - 1; i++)
@@ -64,7 +63,7 @@ public class DailyController : MonoBehaviour
             {
                 break;
             }
-        }
+        }*/
     }
 
 
@@ -98,18 +97,18 @@ public class DailyController : MonoBehaviour
             timeToRewardLeftText.text = $"До получения следующей награды осталось: {timeLeft}";
         }
 
-        switch (YandexGame.lang)
+        /*switch (YandexGame.lang)
         {
-            case "ru":
+            case "ru":*/
                 timeToRewardLeftText.text = $"До получения следующей награды осталось: {timeLeft}";
-                break;
+                /*break;
             case "tr":
                 timeToRewardLeftText.text = $"Bir sonraki ödüle {timeLeft} kaldı";
                 break;
             default:
                 timeToRewardLeftText.text = $"{timeLeft} left until next reward";
                 break;
-        }
+        }*/
     }
 
 
@@ -150,9 +149,9 @@ public class DailyController : MonoBehaviour
         }
 
         lastDateTime = DateTime.UtcNow;
-        YandexGame.savesData.dailyRewardGot[prizeId] = true;
-        YandexGame.savesData.lastRewardGotTime = lastDateTime.Ticks;
-        YandexGame.SaveProgress();
+        //YandexGame.savesData.dailyRewardGot[prizeId] = true;
+        PlayerPrefs.SetInt($"dailyRewardGot{prizeId}", 1);
+        //YandexGame.savesData.lastRewardGotTime = lastDateTime.Ticks;
 
         setButtonColors();
     }
@@ -160,10 +159,9 @@ public class DailyController : MonoBehaviour
 
     private void addMoney(int money)
     {
-        YandexGame.savesData.money += money;
-        YandexGame.SaveProgress();
+        PlayerPrefs.SetInt("money", PlayerPrefs.HasKey("money") ? PlayerPrefs.GetInt("money") + money : money);
 
-        moneyText.text = $"{YandexGame.savesData.money}$";
+        moneyText.text = $"{PlayerPrefs.GetInt("money")} $";
     }
 
     private void getDailyCar(int _dailyCarIndex)

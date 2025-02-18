@@ -6,7 +6,6 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using YG;
 
 public class SelectController : MonoBehaviour
 {
@@ -59,26 +58,25 @@ public class SelectController : MonoBehaviour
     private int _highscore;
 
     private CarInfo _carInfo;
-    private PurchaseYG _purchYG;
+    //private PurchaseYG _purchYG;
 
     // Подписываемся на событие открытия/закрытия вкладки игры
     private void OnEnable()
     {
-        YandexGame.onVisibilityWindowGame += OnVisibilityWindowGame;
+        //YandexGame.onVisibilityWindowGame += OnVisibilityWindowGame;
     }
 
     // Отписываемся от события открытия/закрытия вкладки игры
     private void OnDisable()
     {
-        YandexGame.onVisibilityWindowGame -= OnVisibilityWindowGame;
+        //YandexGame.onVisibilityWindowGame -= OnVisibilityWindowGame;
     }
 
     private void Start()
     {
-        //PlayerPrefs.DeleteAll();
         if (resetProgress)
         {
-            YandexGame.ResetSaveProgress();
+            PlayerPrefs.DeleteAll();
         }
         //_money = PlayerPrefs.HasKey(moneyTag) ? PlayerPrefs.GetInt(moneyTag) : defaultMoney;
         _purchYG = carDonateLockPanel.GetComponentInChildren<PurchaseYG>();

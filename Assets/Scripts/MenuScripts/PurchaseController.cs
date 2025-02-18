@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using YG;
 
 public class PurchaseController : MonoBehaviour
 {
@@ -12,12 +11,12 @@ public class PurchaseController : MonoBehaviour
     // Подписываемся на ивенты успешной/неуспешной покупки
     private void OnEnable()
     {
-        YandexGame.PurchaseSuccessEvent += SuccessPurchased;
+        //YandexGame.PurchaseSuccessEvent += SuccessPurchased;
     }
 
     private void OnDisable()
     {
-        YandexGame.PurchaseSuccessEvent -= SuccessPurchased;
+        //YandexGame.PurchaseSuccessEvent -= SuccessPurchased;
     }
 
     // Покупка успешно совершена, выдаём товар
@@ -25,7 +24,7 @@ public class PurchaseController : MonoBehaviour
     {
         switch(id)
         {
-            case "AdsOff":
+            /*case "AdsOff":
                 YandexGame.savesData.disableAds = true;
                 YandexGame.SaveProgress();
                 break;
@@ -36,7 +35,7 @@ public class PurchaseController : MonoBehaviour
             case "donate100":
                 YandexGame.savesData.money += 100000;
                 YandexGame.SaveProgress();
-                break;
+                break;*/
             case "Tesla":
                 selectController.SaveCarPurch(44);
                 break;

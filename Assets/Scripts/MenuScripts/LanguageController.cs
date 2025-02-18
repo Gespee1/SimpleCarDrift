@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using YG;
 
 public class LanguageController : MonoBehaviour
 {
@@ -12,16 +11,16 @@ public class LanguageController : MonoBehaviour
 
     private void Start()
     {
-        switch (YandexGame.lang)
+        /*switch (YandexGame.lang)
         {
-            case "ru":
+            case "ru":*/
                 if(textSoonUpdates != null)
                     textSoonUpdates.text = "1. Больше карт\n2. Неоновая подсветка\n3. Система увеличения счета при дрифте около препятствий";
                 if (textStartPanel != null)
                     textStartPanel.text = "Дрифти, пока не вышло время!\nНе врезайся!\nКаждые 25 очков равны 1$.\nУдачи!";
                 if (textHowTo != null)
                     textHowTo.text = "WASD   - Управление машиной\nПробел - Ручной тормоз\n'C'           - Сменить камеру\n'R'           - Восстановить машину\n'ESC'     - Меню";
-                break;
+                /*break;
             case "tr":
                 if (textSoonUpdates != null)
                     textSoonUpdates.text = "1. Daha fazla kart\n2. Neon aydınlatma \n3. Engellerin yakınında sürüklenirken skoru artırma sistemi";
@@ -38,25 +37,25 @@ public class LanguageController : MonoBehaviour
                 if (textHowTo != null)
                     textHowTo.text = "WASD - Car control \nSpace bar - Handbrake\n'C'           - Change the camera\n'R'           - Restore the machine\n'ESC'     - Menu";
                 break;
-        }
+        }*/
     }
 
     static public string strOnlyFromDaily()
     {
         string strRet;
 
-        switch (YandexGame.lang)
+        /*switch (YandexGame.lang)
         {
-            case "ru":
+            case "ru":*/
                 strRet = "Только из ежедневных наград!";
-                break;
+                /*break;
             case "tr":
                 strRet = "Sadece günlük ödüllerden!";
                 break;
             default:
                 strRet = "Only from daily rewards!";
                 break;
-        }
+        }*/
 
         return strRet;
     }
@@ -65,18 +64,18 @@ public class LanguageController : MonoBehaviour
     {
         string strRet;
 
-        switch (YandexGame.lang)
+        /*switch (YandexGame.lang)
         {
-            case "ru":
+            case "ru":*/
                 strRet = "из";
-                break;
+                /*break;
             case "tr":
                 strRet = "içinde";
                 break;
             default:
                 strRet = "from";
                 break;
-        }
+        }*/
 
         return strRet;
     }
@@ -85,18 +84,18 @@ public class LanguageController : MonoBehaviour
     {
         string strRet;
 
-        switch (YandexGame.lang)
+        /*switch (YandexGame.lang)
         {
-            case "ru":
+            case "ru":*/
                 strRet = "Цвет";
-                break;
+                /*break;
             case "tr":
                 strRet = "Renk";
                 break;
             default:
                 strRet = "Color";
                 break;
-        }
+        }*/
 
         return strRet;
     }
@@ -105,18 +104,18 @@ public class LanguageController : MonoBehaviour
     {
         string strRet;
 
-        switch (YandexGame.lang)
+        /*switch (YandexGame.lang)
         {
-            case "ru":
+            case "ru":*/
                 strRet = "Диск";
-                break;
+                /*break;
             case "tr":
                 strRet = "Jant";
                 break;
             default:
                 strRet = "Rim";
                 break;
-        }
+        }*/
 
         return strRet;
     }
@@ -126,21 +125,21 @@ public class LanguageController : MonoBehaviour
         string strRet;
 
         string[] strRu = { "Гоночный трек №1", "Гоночный трек №2", "Город" };
-        string[] strTr = { "Yarış pisti # 1", "Yarış pisti # 2", "Şehir" };
-        string[] strEn = { "Race Track No. 1", "Race Track No. 2", "City" };
+        //string[] strTr = { "Yarış pisti # 1", "Yarış pisti # 2", "Şehir" };
+        //string[] strEn = { "Race Track No. 1", "Race Track No. 2", "City" };
 
-        switch (YandexGame.lang)
+        /*switch (YandexGame.lang)
         {
-            case "ru":
+            case "ru":*/
                 strRet = strRu[mapIndex];
-                break;
+                /*break;
             case "tr":
                 strRet = strTr[mapIndex];
                 break;
             default:
                 strRet = strEn[mapIndex];
                 break;
-        }
+        }*/
 
         return strRet;
     }

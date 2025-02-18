@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using YG;
 
 public class MusicPlayer : MonoBehaviour
 {
@@ -10,7 +9,7 @@ public class MusicPlayer : MonoBehaviour
 
     void Start()
     {
-        audioSource = /*FindObjectOfType<AudioSource>()*/GetComponent<AudioSource>();
+        audioSource = GetComponent<AudioSource>();
         audioSource.loop = false;
     }
 
@@ -21,15 +20,16 @@ public class MusicPlayer : MonoBehaviour
 
     void Update()
     {
-        //Debug.Log(audioSource.isPlaying.ToString());
-        if(YandexGame.savesData.music == 0)
+        if(PlayerPrefs.HasKey("music")
+            && PlayerPrefs.GetFloat("music") == 0)
         {
             audioSource.Stop();
         }
 
         if (!audioSource.isPlaying 
             && Time.timeScale != 0
-            && YandexGame.savesData.music != 0)
+            && PlayerPrefs.HasKey("music")
+            && PlayerPrefs.GetFloat("music") != 0)
         {
             audioSource.clip = GetClip();
             audioSource.Play();

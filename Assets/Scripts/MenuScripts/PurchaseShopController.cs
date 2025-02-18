@@ -3,17 +3,16 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using YG;
 
 public class PurchaseShopController : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI donate30Text,
                                      donate100Text;
-    [SerializeField] ImageLoadYG donate30Image,
-                                 donate100Image;
+    /*[SerializeField] ImageLoadYG donate30Image,
+                                 donate100Image;*/
     private void OnEnable()
     {
-        YG.Utils.Pay.Purchase purch;
+        /*YG.Utils.Pay.Purchase purch;
 
         purch = YandexGame.PurchaseByID("donate30");
         if (purch != null)
@@ -30,6 +29,6 @@ public class PurchaseShopController : MonoBehaviour
             donate100Image.urlImage = purch.currencyImageURL;
             donate100Image.gameObject.GetComponent<RawImage>().SetActive(true);
             donate100Image.Load(purch.currencyImageURL);
-        }
+        }*/
     }
 }

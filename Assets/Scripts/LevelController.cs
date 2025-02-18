@@ -4,8 +4,6 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using YG;
-using YG.Example;
 
 public class LevelController : MonoBehaviour
 {
@@ -33,16 +31,6 @@ public class LevelController : MonoBehaviour
     private bool _gamePaused;
     private int _earnedMoney, _extraMoney;
 
-    private void OnEnable()
-    {
-        YandexGame.RewardVideoEvent += rewarded;
-    }
-
-    // Отписываемся от события открытия рекламы в OnDisable
-    private void OnDisable()
-    {
-        YandexGame.RewardVideoEvent -= rewarded;
-    }
 
     private void Awake()
     {
@@ -103,7 +91,7 @@ public class LevelController : MonoBehaviour
         arrowImage.rectTransform.SetAnchoredX(xPos);
 
         // показ рекламы
-        YandexGame.RewVideoShow(2);
+        //YandexGame.RewVideoShow(2);
         multiplierButton.SetActive(false);
     }
 
@@ -118,11 +106,8 @@ public class LevelController : MonoBehaviour
         _extraMoney = Convert.ToInt32(_earnedMoney * moneyMultiplier);
         finalMoneyText.text = $"{_extraMoney + _earnedMoney}$";
 
-        //_extraMoney += PlayerPrefs.HasKey(moneyTag) ? PlayerPrefs.GetInt(moneyTag) : 0;
-        //PlayerPrefs.SetInt(moneyTag, _extraMoney);
-        _extraMoney += YandexGame.savesData.money;
-        YandexGame.savesData.money = _extraMoney;
-        YandexGame.SaveProgress();
+        _extraMoney += PlayerPrefs.HasKey("money") ? PlayerPrefs.GetInt("money") : 0;
+        PlayerPrefs.SetInt("money", _extraMoney);
         Time.timeScale = 0;
     }
 
@@ -147,27 +132,25 @@ public class LevelController : MonoBehaviour
             finalMoneyText.text = $"{_earnedMoney}$";
 
             money = _earnedMoney;
-            money += YandexGame.savesData.money;
-            YandexGame.savesData.money = money;
+            money += PlayerPrefs.HasKey("money") ? PlayerPrefs.GetInt("money") : 0;
+            PlayerPrefs.SetInt("money", money);
 
-            if(highscore > YandexGame.savesData.highscore)
+            if(PlayerPrefs.HasKey("highscore") 
+                && highscore > PlayerPrefs.GetInt("highscore"))
             {
-                YandexGame.savesData.highscore = highscore;
-                //YandexGame.SaveProgress();
+                PlayerPrefs.SetInt("highscore", highscore);
 
-                YandexGame.NewLeaderboardScores("BestScore", highscore);
+                //YandexGame.NewLeaderboardScores("BestScore", highscore);
             }
 
-            if(!YandexGame.savesData.firstRideDone)
+            if(!PlayerPrefs.HasKey("firstRideDone"))
             {
-                YandexGame.savesData.firstRideDone = true;
+                PlayerPrefs.SetInt("firstRideDone", 1);
             }
-            else if(!YandexGame.savesData.secondRideDone)
+            else if(!PlayerPrefs.HasKey("secondRideDone"))
             {
-                YandexGame.savesData.secondRideDone = true;
+                PlayerPrefs.SetInt("secondRideDone", 1);
             }
-
-            YandexGame.SaveProgress();
 
             _gamePaused = true;
         }

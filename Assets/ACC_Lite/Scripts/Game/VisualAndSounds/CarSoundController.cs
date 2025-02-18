@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using YG;
 
 /// <summary>
 /// Car sound controller, for play car sound effects
@@ -38,7 +37,8 @@ public class CarSoundController :MonoBehaviour
 
 		//Engine PRM sound
 		EngineSource.pitch = (EngineRPM / MaxRPM) + PitchOffset;
-		if (YandexGame.savesData.sound != 0
+		if (PlayerPrefs.HasKey("sound")
+			&& PlayerPrefs.GetFloat("sound") != 0
             && Time.timeScale != 0)
 		{
 			if (!EngineSource.isPlaying)
@@ -53,15 +53,16 @@ public class CarSoundController :MonoBehaviour
 
         //Slip sound logic
         if (CarController.CurrentMaxSlip > MinSlipSound 
-			&& YandexGame.savesData.sound != 0
-			&& Time.timeScale != 0)
+			&& PlayerPrefs.HasKey("sound")
+            && PlayerPrefs.GetFloat("sound") != 0
+            && Time.timeScale != 0)
 		{
 			if (!SlipSource.isPlaying)
 			{
 				SlipSource.Play ();
 			}
 			var slipVolumeProcent = CarController.CurrentMaxSlip / MaxSlipForSound;
-			SlipSource.volume = slipVolumeProcent * 0.65f * YandexGame.savesData.sound;
+			SlipSource.volume = slipVolumeProcent * 0.65f * (PlayerPrefs.HasKey("sound") ? PlayerPrefs.GetFloat("sound") : 0);
 			SlipSource.pitch = Mathf.Clamp (slipVolumeProcent, 0.75f, 1);
 		}
 		else
@@ -72,7 +73,8 @@ public class CarSoundController :MonoBehaviour
 
 	void PlayBackfire()
 	{
-		if (YandexGame.savesData.sound != 0
+		if (PlayerPrefs.HasKey("sound")
+            && PlayerPrefs.GetFloat("sound") != 0
             && Time.timeScale != 0)
 		{
 			EngineSource.PlayOneShot(EngineBackFireClip);

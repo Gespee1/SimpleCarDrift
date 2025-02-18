@@ -4,8 +4,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using YG;
-using static YG.ViewingAdsYG;
 
 /// <summary>
 /// Base class game controller.
@@ -38,32 +36,20 @@ public class GameController :MonoBehaviour
     private List<GameObject> selectedRimsList = new List<GameObject>();
 
 
-    // Подписываемся на событие открытия/закрытия вкладки игры
-    private void OnEnable()
-    {
-        YandexGame.onVisibilityWindowGame += OnVisibilityWindowGame;
-		YandexGame.CloseFullAdEvent += onFullAdClose;
-    }
-
-    // Отписываемся от события открытия/закрытия вкладки игры
-    private void OnDisable()
-    {
-        YandexGame.onVisibilityWindowGame -= OnVisibilityWindowGame;
-        YandexGame.CloseFullAdEvent -= onFullAdClose;
-    }
 
     protected virtual void Awake ()
 	{
 		Instance = this;
         GameObject currentWheel;
 
-        CurrentCarIndex = YandexGame.savesData.selectedCar < cars.Length ? YandexGame.savesData.selectedCar : 0;
+        
+        CurrentCarIndex = PlayerPrefs.HasKey("selectedCar") ? PlayerPrefs.GetInt("selectedCar") < cars.Length ? PlayerPrefs.GetInt("selectedCar") : 0 : 0;
         m_PlayerCar = Instantiate(cars[CurrentCarIndex], SpawnPoint.position, new Quaternion(), SpawnPoint).GetComponent<CarController>();
 
-		colorIndex = YandexGame.savesData.carColors[CurrentCarIndex];
+		colorIndex = PlayerPrefs.HasKey($"carColor{CurrentCarIndex}") ? PlayerPrefs.GetInt($"carColor{CurrentCarIndex}") : 0;
         m_PlayerCar.GetComponentInChildren<MeshRenderer>().SetMaterials(new List<Material> { colors[colorIndex], lightsMaterial });
 
-        rimIndex = YandexGame.savesData.carRims[CurrentCarIndex];
+        rimIndex = PlayerPrefs.HasKey($"carRim{CurrentCarIndex}") ? PlayerPrefs.GetInt($"carRim{CurrentCarIndex}") : 0;
         foreach (Wheel rim in m_PlayerCar.Wheels)
         {
             selectedRimsList.Add(rim.WheelView.GetChild(0).gameObject);
@@ -122,7 +108,6 @@ public class GameController :MonoBehaviour
 	public void ExitToMenu()
 	{
         Time.timeScale = 1;
-		//SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene());
         SceneManager.LoadScene(0);
 	}
 
@@ -130,12 +115,6 @@ public class GameController :MonoBehaviour
     {
         EndPanel.SetActive(false);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        //StartCoroutine(wait());
-        /*EndPanel.SetActive(false);
-        RespawnCar();
-        Time.timeScale = 1;
-        StartPanel.SetActive(true);
-		Time.timeScale = 0;*/
     }
 
 	private void RespawnCar()
@@ -159,17 +138,6 @@ public class GameController :MonoBehaviour
     }
 
 
-    private void OnVisibilityWindowGame(bool focus)
-    {
-		if (focus)
-		{
-			YandexGame.GameplayStart();
-		}
-		else
-		{
-			YandexGame.GameplayStop();
-		}
-    }
 	private void onFullAdClose()
 	{
 		Time.timeScale = 0;

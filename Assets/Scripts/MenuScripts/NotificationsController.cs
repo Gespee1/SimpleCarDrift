@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using YG;
 
 public class NotificationsController : MonoBehaviour
 {
@@ -11,7 +10,7 @@ public class NotificationsController : MonoBehaviour
     private void Awake()
     {
         // Вызов вопроса об отзыве, после 1 сыгранной игры
-        if(YandexGame.savesData.firstRideDone
+        /*if(YandexGame.savesData.firstRideDone
             && YandexGame.EnvironmentData.reviewCanShow)
         {
             YandexGame.ReviewShow(false);
@@ -22,6 +21,6 @@ public class NotificationsController : MonoBehaviour
             && YandexGame.EnvironmentData.promptCanShow)
         {
             YandexGame.PromptShow();
-        }
+        }*/
     }
 }

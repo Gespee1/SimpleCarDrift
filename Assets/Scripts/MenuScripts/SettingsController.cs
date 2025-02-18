@@ -5,7 +5,6 @@ using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
-using YG;
 
 public class SettingsController : MonoBehaviour
 {
@@ -21,8 +20,8 @@ public class SettingsController : MonoBehaviour
     private void Start()
     {
         List<AudioSource> soundSources;
-        music = YandexGame.savesData.music;
-        sound = YandexGame.savesData.sound;
+        music = PlayerPrefs.HasKey("music") ? PlayerPrefs.GetFloat("music") : 0;
+        sound = PlayerPrefs.HasKey("sound") ? PlayerPrefs.GetFloat("sound") : 0;
 
         musicSlider.value = music;
         soundSlider.value = sound;
@@ -47,8 +46,7 @@ public class SettingsController : MonoBehaviour
 
     public void musicValueChanged()
     {
-        YandexGame.savesData.music = musicSlider.value;
-        YandexGame.SaveProgress();
+        PlayerPrefs.SetFloat("music",musicSlider.value);
 
         foreach (var src in audioSrcs)
             src.volume = musicSlider.value;
@@ -56,8 +54,7 @@ public class SettingsController : MonoBehaviour
 
     public void soundValueChanged()
     {
-        YandexGame.savesData.sound = soundSlider.value;
-        YandexGame.SaveProgress();
+        PlayerPrefs.SetFloat("sound", soundSlider.value);
 
         foreach (var src in soundSrcs)
             src.volume = soundSlider.value;

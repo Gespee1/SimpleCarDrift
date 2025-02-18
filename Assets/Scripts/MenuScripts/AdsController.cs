@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using YG;
 
 public class AdsController : MonoBehaviour
 {
@@ -14,13 +13,13 @@ public class AdsController : MonoBehaviour
     // Подписываемся на событие открытия рекламы в OnEnable
     private void OnEnable()
     {
-        YandexGame.RewardVideoEvent += Rewarded;
+        //YandexGame.RewardVideoEvent += Rewarded;
     }
 
     // Отписываемся от события открытия рекламы в OnDisable
     private void OnDisable()
     {
-        YandexGame.RewardVideoEvent -= Rewarded;
+        //YandexGame.RewardVideoEvent -= Rewarded;
     }
 
     // Подписанный метод получения награды
@@ -40,10 +39,9 @@ public class AdsController : MonoBehaviour
 
     private void AddMoney()
     {
-        YandexGame.savesData.money += _money;
-        YandexGame.SaveProgress();
+        PlayerPrefs.SetInt("money", PlayerPrefs.HasKey("money") ? PlayerPrefs.GetInt("money") + _money : _money);
 
-        _moneyText.text = $"{YandexGame.savesData.money} $";
+        _moneyText.text = $"{PlayerPrefs.GetInt("money")} $";
     }
     /*
     // Метод для вызова видео рекламы
