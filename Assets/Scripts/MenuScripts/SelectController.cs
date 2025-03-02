@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
@@ -41,11 +42,14 @@ public class SelectController : MonoBehaviour
     [SerializeField] Image mapImage;
     [SerializeField] GameObject carCostLockPanel;
     [SerializeField] GameObject carDonateLockPanel;
-    [SerializeField] int defaultMoney;
+    [SerializeField] int defaultMoney = 3000;
     [SerializeField] bool resetProgress = false;
 
     private const string moneyTag = "money";
     private const string selectedCarTag = "selectedCar";
+    /*private const string CarPurchaseTag = "carPurchase";
+    private const string CarColorTag = "carColor";
+    private const string CarRimTag = "carRim";*/
     private const string highscoreTag = "highscore";
     private GameObject selectedCar;
     private List<GameObject> selectedRimsList = new List<GameObject>();
@@ -78,18 +82,18 @@ public class SelectController : MonoBehaviour
         {
             PlayerPrefs.DeleteAll();
         }
-        //_money = PlayerPrefs.HasKey(moneyTag) ? PlayerPrefs.GetInt(moneyTag) : defaultMoney;
-        _purchYG = carDonateLockPanel.GetComponentInChildren<PurchaseYG>();
-        _money = YandexGame.savesData.money;
+        _money = PlayerPrefs.HasKey(moneyTag) ? PlayerPrefs.GetInt(moneyTag) : defaultMoney;
+        //_purchYG = carDonateLockPanel.GetComponentInChildren<PurchaseYG>();
+        //_money = YandexGame.savesData.money;
         moneyText.text = $"{_money} $";
 
-        //_highscore = PlayerPrefs.HasKey(highscoreTag) ? PlayerPrefs.GetInt(highscoreTag) : 0;
-        _highscore = YandexGame.savesData.highscore;
+        _highscore = PlayerPrefs.HasKey(highscoreTag) ? PlayerPrefs.GetInt(highscoreTag) : 0;
+        //_highscore = YandexGame.savesData.highscore;
         highscoreText.text = $"{_highscore}";
 
         selectedMapIndex = 0;
 
-        selectedCarIndex = YandexGame.savesData.selectedCar == 0 ? PlayerPrefs.HasKey(selectedCarTag) ? PlayerPrefs.GetInt(selectedCarTag) : 0 : YandexGame.savesData.selectedCar;
+        selectedCarIndex = PlayerPrefs.HasKey(selectedCarTag) ? PlayerPrefs.GetInt(selectedCarTag) : 0;
         //selectedColorIndex = PlayerPrefs
 
 
@@ -184,8 +188,8 @@ public class SelectController : MonoBehaviour
                 case CarPurchType.donate:
                     if(!carPurchInfo[carIndex].IsPurchased)
                     {
-                        _purchYG.data = YandexGame.PurchaseByID(carPurchInfo[carIndex].donateId);
-                        _purchYG.UpdateEntries();
+                        //_purchYG.data = YandexGame.PurchaseByID(carPurchInfo[carIndex].donateId);
+                        //_purchYG.UpdateEntries();
                     }
                     break;
             }
@@ -204,14 +208,14 @@ public class SelectController : MonoBehaviour
 
     public void buyCar()
     {
-        _money = YandexGame.savesData.money;
+        _money = PlayerPrefs.HasKey(moneyTag) ? PlayerPrefs.GetInt(moneyTag) : defaultMoney;
 
         if (_money >= carPurchInfo[selectedCarIndex].Cost)
         {
             _money -= carPurchInfo[selectedCarIndex].Cost;
             carPurchInfo[selectedCarIndex].savePurchase(selectedCarIndex);
-            YandexGame.savesData.money = _money;
-            YandexGame.SaveProgress();
+            //YandexGame.savesData.money = _money;
+            PlayerPrefs.SetInt(moneyTag, _money);
 
             moneyText.text = $"{_money} $";
             buyButton.SetActive(!carPurchInfo[selectedCarIndex].IsPurchased);
@@ -291,8 +295,8 @@ public class SelectController : MonoBehaviour
         {
             _money -= 500;
             carPurchInfo[selectedCarIndex].saveRim(selectedCarIndex, selectedRimIndex);
-            YandexGame.savesData.money = _money;
-            YandexGame.SaveProgress();
+            //YandexGame.savesData.money = _money;
+            PlayerPrefs.SetInt(moneyTag, _money);
 
             moneyText.text = $"{_money} $";
 
@@ -370,11 +374,11 @@ public class SelectController : MonoBehaviour
     // —охранение выбранного авто и загрузка уровн€
     public void StartGame()
     {
-        //PlayerPrefs.SetInt("selectedCar", selectedCarIndex);
+        PlayerPrefs.SetInt(selectedCarTag, selectedCarIndex);
         //PlayerPrefs.SetInt("selectedColor", selectedColorIndex);
 
-        YandexGame.savesData.selectedCar = selectedCarIndex;
-        YandexGame.SaveProgress();
+        //YandexGame.savesData.selectedCar = selectedCarIndex;
+        //YandexGame.SaveProgress();
 
         switch(selectedMapIndex)
         {
@@ -395,7 +399,7 @@ public class SelectController : MonoBehaviour
 
     private void OnVisibilityWindowGame(bool focus)
     {
-        if (focus)
+        /*if (focus)
         {
             YandexGame.GameplayStart();
         }
@@ -403,7 +407,7 @@ public class SelectController : MonoBehaviour
         {
             YandexGame.GameplayStop();
 
-        }
+        }*/
     }
 
 
@@ -425,6 +429,10 @@ public class SelectController : MonoBehaviour
 [System.Serializable]
 class CarPurchInfo
 {
+    private const string CarPurchaseTag = "carPurchase";
+    private const string CarColorTag = "carColor";
+    private const string CarRimTag = "carRim";
+
     [SerializeField] string _key;
 
     public bool IsPurchased = false;
@@ -436,31 +444,34 @@ class CarPurchInfo
 
     public void Initialize(int CarIndex)
     {
-        IsPurchased = YandexGame.savesData.carPurchases[CarIndex];
-        CarColor = YandexGame.savesData.carColors[CarIndex];
-        CarRim = YandexGame.savesData.carRims[CarIndex];
+        //IsPurchased = YandexGame.savesData.carPurchases[CarIndex];
+        //CarColor = YandexGame.savesData.carColors[CarIndex];
+        //CarRim = YandexGame.savesData.carRims[CarIndex];
+        IsPurchased = PlayerPrefs.HasKey($"{CarPurchaseTag}{CarIndex}") ? Convert.ToBoolean(PlayerPrefs.GetInt($"{CarPurchaseTag}{CarIndex}")) : false;
+        CarColor = PlayerPrefs.HasKey($"{CarColorTag}{CarIndex}") ? PlayerPrefs.GetInt($"{CarColorTag}{CarIndex}") : 0;
+        CarRim = PlayerPrefs.HasKey($"{CarRimTag}{CarIndex}") ? PlayerPrefs.GetInt($"{CarRimTag}{CarIndex}") : 0;
     }
 
     public void saveColor(int CarIndex, int colorIdx)
     {
         this.CarColor = colorIdx;
-        YandexGame.savesData.carColors[CarIndex] = colorIdx;
-        YandexGame.SaveProgress();
+        PlayerPrefs.SetInt($"{CarColorTag}{CarIndex}", colorIdx);
+        //YandexGame.savesData.carColors[CarIndex] = colorIdx;
     }
 
     public void saveRim(int CarIndex, int rimIdx)
     {
         this.CarRim = rimIdx;
-        YandexGame.savesData.carRims[CarIndex] = rimIdx;
-        YandexGame.SaveProgress();
+        PlayerPrefs.SetInt($"{CarRimTag}{CarIndex}", rimIdx);
+        //YandexGame.savesData.carRims[CarIndex] = rimIdx;
     }
 
     public void savePurchase(int CarIndex)
     {
         IsPurchased = true;
 
-        YandexGame.savesData.carPurchases[CarIndex] = true;
-        YandexGame.SaveProgress();
+        PlayerPrefs.SetInt($"{CarPurchaseTag}{CarIndex}", 1);
+        //YandexGame.savesData.carPurchases[CarIndex] = true;
     }
 
 }
