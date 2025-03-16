@@ -16,12 +16,15 @@ public class GameController :MonoBehaviour
 	[SerializeField] GameObject PausePanel;
 	[SerializeField] GameObject StartPanel;
 	[SerializeField] GameObject EndPanel;
+    [SerializeField] GameObject FxController;
     [SerializeField] Transform SpawnPoint;
     [SerializeField] GameObject[] cars;
     [SerializeField] Material[] colors;
     [SerializeField] GameObject[] rims;
     [SerializeField] Material lightsMaterial;
 	[SerializeField] SettingsController settingsController;
+
+    TrailRenderer trailRenderer;
 
     public static GameController Instance;
 	public static CarController PlayerCar { get { return Instance.m_PlayerCar; } }
@@ -42,7 +45,8 @@ public class GameController :MonoBehaviour
 		Instance = this;
         GameObject currentWheel;
 
-        
+        trailRenderer = FxController.transform.Find("TrailsHolder").Find("Trail").GetComponent<TrailRenderer>();
+
         CurrentCarIndex = PlayerPrefs.HasKey("selectedCar") ? PlayerPrefs.GetInt("selectedCar") < cars.Length ? PlayerPrefs.GetInt("selectedCar") : 0 : 0;
         m_PlayerCar = Instantiate(cars[CurrentCarIndex], SpawnPoint.position, new Quaternion(), SpawnPoint).GetComponent<CarController>();
 
@@ -119,9 +123,15 @@ public class GameController :MonoBehaviour
 
 	private void RespawnCar()
 	{
-		m_PlayerCar.RB.velocity = Vector3.zero;
+        if(trailRenderer != null)
+            trailRenderer.emitting = false;
+
+        m_PlayerCar.RB.velocity = Vector3.zero;
         m_PlayerCar.transform.position = SpawnPoint.position;
 		m_PlayerCar.transform.rotation = SpawnPoint.rotation;
+
+        if (trailRenderer != null)
+            trailRenderer.emitting = true;
     }
 
 
