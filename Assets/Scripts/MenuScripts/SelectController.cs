@@ -366,7 +366,10 @@ public class SelectController : MonoBehaviour
         ShowSelectedRim(selectedRimIndex);
     }
 
-
+    public void updateMoneyUI()
+    {
+        moneyText.text = $"{YandexGame.savesData.money} $";
+    }
 
 
     // —охранение выбранного авто и загрузка уровн€

@@ -32,10 +32,12 @@ public class PurchaseController : MonoBehaviour
             case "donate30":
                 YandexGame.savesData.money += 30000;
                 YandexGame.SaveProgress();
+                selectController.updateMoneyUI();
                 break;
             case "donate100":
                 YandexGame.savesData.money += 100000;
                 YandexGame.SaveProgress();
+                selectController.updateMoneyUI();
                 break;
             case "Tesla":
                 selectController.SaveCarPurch(44);

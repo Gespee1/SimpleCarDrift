@@ -1,5 +1,5 @@
 {
-  "idSave": 11769,
+  "idSave": 11895,
   "isFirstSession": false,
   "language": "ru",
   "promptDone": false,
@@ -11,7 +11,7 @@
   ],
   "carPurchases": [
     true,
-    false,
+    true,
     false,
     true,
     false,
@@ -65,7 +65,7 @@
     false
   ],
   "carColors": [
-    0,
+    3,
     0,
     0,
     0,
@@ -120,7 +120,7 @@
     0
   ],
   "carRims": [
-    0,
+    3,
     0,
     0,
     0,
@@ -174,9 +174,9 @@
     0,
     0
   ],
-  "selectedCar": 41,
+  "selectedCar": 1,
   "highscore": 152552,
-  "money": 435513,
+  "money": 594013,
   "lastRewardGotTime": 0,
   "dailyRewardGot": [
     false,
